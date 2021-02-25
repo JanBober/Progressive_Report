@@ -8,6 +8,8 @@ import dagger.android.support.AndroidSupportInjectionModule
 import pl.jan.bober.progressivereport.ReportApp
 import pl.jan.bober.progressivereport.di.modules.ViewModelModule
 import pl.jan.bober.progressivereport.di.modules.dataModule.DatabaseModule
+import pl.jan.bober.progressivereport.di.modules.dataModule.ManagerModule
+import pl.jan.bober.progressivereport.di.modules.dataModule.NetworkModule
 import javax.inject.Singleton
 
 @Singleton
@@ -15,8 +17,10 @@ import javax.inject.Singleton
     modules = [
         AndroidInjectionModule::class,
         AndroidSupportInjectionModule::class,
+        NetworkModule::class,
         DatabaseModule::class,
-        ViewModelModule::class
+        ViewModelModule::class,
+        ManagerModule::class
     ]
 )
 

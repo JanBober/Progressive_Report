@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Progressive Report</string>
+    <string name="delete_all_reports">Delete all reports</string>
+    <string name="add_report">Add Report</string>
+    <string name="search">Search</string>
+    <string name="designation">Nazwa</string>
+    <string name="date">Data</string>
+    <string name="time">Godzina</string>
 </resources>

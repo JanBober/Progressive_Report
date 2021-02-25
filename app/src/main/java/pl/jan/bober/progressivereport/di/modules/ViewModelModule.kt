@@ -7,7 +7,7 @@ import pl.jan.bober.progressivereport.ReportApp
 
 @Module(
     includes = [
-        MainActivityModule::class
+        ReportModule::class
     ]
 )
 abstract class ViewModelModule {

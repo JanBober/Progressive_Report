@@ -1,2 +1,4 @@
+include ':repository-domain'
+include ':repository-data'
 include ':app'
 rootProject.name='Progressive_Report'
