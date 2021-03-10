@@ -6,4 +6,10 @@
     <string name="designation">Nazwa</string>
     <string name="date">Data</string>
     <string name="time">Godzina</string>
+    <string name="name">Nazwa</string>
+    <string name="select_a_date">Wybierz datę</string>
+    <string name="select_a_time">Wybierz godzinę</string>
+    <string name="save_private_report">Save private report</string>
+    <string name="save_cloud_report">Save cloud report</string>
+    <string name="close_and_report_activity">Close and report activity</string>
 </resources>

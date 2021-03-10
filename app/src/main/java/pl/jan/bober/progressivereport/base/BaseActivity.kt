@@ -1,4 +1,4 @@
-package pl.jan.bober.progressivereport.base.util
+package pl.jan.bober.progressivereport.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

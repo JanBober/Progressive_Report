@@ -1,11 +1,14 @@
 package pl.jan.bober.progressivereport.screens.main
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import pl.jan.bober.progressivereport.R
+import pl.jan.bober.progressivereport.base.BaseActivity
 import pl.jan.bober.progressivereport.base.ktx.showSnackBar
-import pl.jan.bober.progressivereport.base.util.BaseActivity
 import pl.jan.bober.progressivereport.databinding.ActivityMainBinding
+import pl.jan.bober.progressivereport.screens.addreport.AddReport
 
 class MainActivity : BaseActivity() {
 
@@ -39,11 +42,23 @@ class MainActivity : BaseActivity() {
     private fun activeOutput() {
         reportViewModel.actionReport.observe(this) {
             when (it) {
-                is ReportViewModel.Action.ShowReports ->
+                is ReportViewModel.Action.ShowReports -> {
                     reportAdapter.setReportList(it.listOfReports)
-                ReportViewModel.Action.DeleteReport -> {
+                    showSnackBar("Download Report")
                     reportViewModel.fetchReport()
-//                    reportAdapter.actualizedReportList()
+                }
+                is ReportViewModel.Action.RefreshReports -> {
+                    reportAdapter.setReportList(it.listOfReports)
+                    showSnackBar("Refresh Report")
+                    reportViewModel.fetchReport()
+                }
+                ReportViewModel.Action.Run -> {
+                    showSnackBar("Run")
+                    reportViewModel.fetchReport()
+                }
+                ReportViewModel.Action.GoToAddReportActivity ->
+                    startAddReportActivity()
+                ReportViewModel.Action.DeleteReport -> {
                     showSnackBar("delete Report")
                 }
                 is ReportViewModel.Action.ShowPrivateReports -> {
@@ -78,6 +93,17 @@ class MainActivity : BaseActivity() {
                         message -> showSnackBar(message)
                     }
             }
+        }
+    }
+
+    private fun startAddReportActivity() {
+        AddReport.start(this)
+        finish()
+    }
+
+    companion object {
+        fun start(activity: Activity) {
+            activity.startActivity(Intent(activity, MainActivity::class.java))
         }
     }
 }

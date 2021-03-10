@@ -66,6 +66,7 @@
                         android:layout_height="wrap_content"
                         style="@style/menu_report_icon"
                         android:background="@drawable/ic_add"
+                        android:onClick="@{() -> viewModel.addReport()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/action_search"
                         app:layout_constraintTop_toTopOf="parent"
