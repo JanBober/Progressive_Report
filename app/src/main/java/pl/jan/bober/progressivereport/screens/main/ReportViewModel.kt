@@ -1,26 +1,36 @@
 package pl.jan.bober.progressivereport.screens.main
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import pl.jan.bober.entities.model.Report
+import pl.jan.bober.progressivereport.R
 import pl.jan.bober.progressivereport.base.BaseViewModel
 import pl.jan.bober.progressivereport.base.SingleLiveEvent
+import pl.jan.bober.progressivereport.base.ktx.mutableLiveData
 import pl.jan.bober.progressivereport.db.MainDatabase
+import pl.jan.bober.progressivereport.manager.ResourcesProvider
 import pl.jan.bober.usecases.DeleteReportUseCase
 import pl.jan.bober.usecases.GetReportUseCase
+import pl.jan.bober.usecases.PostReportUseCase
+import pl.jan.bober.usecases.PutReportUseCase
 import java.util.*
 import javax.inject.Inject
 
 class ReportViewModel @Inject constructor(
     private val mainDatabase: MainDatabase,
     private val getReportUseCase: GetReportUseCase,
-    private val deleteReportUseCase: DeleteReportUseCase
+    private val postReportUseCase: PostReportUseCase,
+    private val putReportUseCase: PutReportUseCase,
+    private val deleteReportUseCase: DeleteReportUseCase,
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
+
+    val name = mutableLiveData("")
+    val date = mutableLiveData(resourcesProvider.getString(R.string.select_a_date))
+    val time = mutableLiveData(resourcesProvider.getString(R.string.select_a_time))
 
     val reports = MutableLiveData<List<Report>>()
     val privateReports = MutableLiveData<List<Report>>()
@@ -116,28 +126,75 @@ class ReportViewModel @Inject constructor(
     }
 
     private fun refreshReports(reports: List<Report>) {
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (this.reports.value == null) {
+        when {
+            this.reports.value == null -> {
                 this.reports.value = reports
                 actionReport.value = Action.ShowReports(reports)
-                return@postDelayed
             }
-            else if (reports.size != this.reports.value!!.size) {
+            reports.size != this.reports.value!!.size -> {
                 this.reports.value = reports
                 actionReport.value = Action.RefreshReports(reports)
-                return@postDelayed
             }
-            else {
+            else -> {
                 reports.forEach { report ->
                     if (!this.reports.value!!.contains(report)) {
                         this.reports.value = reports
                         actionReport.value = Action.RefreshReports(reports)
-                        return@postDelayed
                     }
                 }
-                actionReport.value = Action.Run
             }
-        }, 5000)
+        }
+    }
+
+    fun saveReport() {
+        if (name.value!!.isEmpty()) {
+            errorReport.value = Errors.NameIsEmpty
+            return
+        }
+        val report = Report().apply {
+            name = this@ReportViewModel.name.value
+            date = this@ReportViewModel.date.value
+            time = this@ReportViewModel.time.value
+            if (this@ReportViewModel.report.value != null) {
+                id = this@ReportViewModel.report.value!!.id
+            }
+        }
+        if (this.report.value==null) {
+            insertReport(report)
+        }
+        else {
+            updateReport(report)
+        }
+    }
+
+    private fun insertReport(report: Report) {
+        postReportUseCase
+            .execute(report)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onSuccess = {
+                    actionReport.value = Action.AddReport
+                },
+                onError = {
+                    errorReport.value = Errors.AddReportException(it)
+                }
+            ).addTo(disposables)
+    }
+
+    private fun updateReport(report: Report) {
+        putReportUseCase
+            .execute(report)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onSuccess = {
+                    actionReport.value = Action.UpDateReport
+                },
+                onError = {
+                    errorReport.value = Errors.UpDateReportException(it)
+                }
+            ).addTo(disposables)
     }
 
     fun deleteReport(reportId: Long) {
@@ -155,19 +212,37 @@ class ReportViewModel @Inject constructor(
             ).addTo(disposables)
     }
 
+    fun doNotSave() {
+        actionReport.value = Action.DoNotSaveReport
+    }
+
     fun reportClicked(report: Report) {
         this.report.value = report
+        name.value = report.name
+        date.value = report.date
+        time.value = report.time
+        formReport()
     }
 
     fun addReport() {
-        actionReport.value = Action.GoToAddReportActivity
+        name.value = ""
+        date.value = resourcesProvider.getString(R.string.select_a_date)
+        time.value = resourcesProvider.getString(R.string.select_a_time)
+        report.value = null
+        formReport()
+    }
+
+    private fun formReport() {
+        actionReport.value = Action.GoToFormReportFlipper
     }
 
     sealed class Action {
         data class ShowReports(val listOfReports: List<Report>) : Action()
         data class RefreshReports(val listOfReports: List<Report>) : Action()
-        object Run : Action()
-        object GoToAddReportActivity : Action()
+        object AddReport : Action()
+        object UpDateReport : Action()
+        object DoNotSaveReport : Action()
+        object GoToFormReportFlipper : Action()
         object DeleteReport : Action()
         data class ShowPrivateReports(val listOfPrivateReports: List<Report>) : Action()
         object AddPrivateReport : Action()
@@ -178,6 +253,9 @@ class ReportViewModel @Inject constructor(
 
     sealed class Errors {
         data class ReportsDownloadException(val exception: Throwable) : Errors()
+        data class AddReportException(val exception: Throwable) : Errors()
+        data class UpDateReportException(val exception: Throwable) : Errors()
+        object NameIsEmpty : Errors()
         data class PrivateReportException(val exception: Throwable) : Errors()
     }
 }

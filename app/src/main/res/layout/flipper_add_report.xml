@@ -5,17 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <import type="pl.jan.bober.progressivereport.R"/>
         <variable
             name="viewModel"
-            type="pl.jan.bober.progressivereport.screens.addreport.AddReportViewModel" />
+            type="pl.jan.bober.progressivereport.screens.main.ReportViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context=".screens.addreport.AddReport">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbarAddReport"
@@ -51,7 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/menu_report_icon"
-                        android:onClick="@{() -> viewModel.insertReport()}"
+                        android:onClick="@{() -> viewModel.saveReport()}"
                         android:background="@drawable/ic_cloud_upload"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"

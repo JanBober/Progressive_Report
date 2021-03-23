@@ -1,148 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:fitsSystemWindows="true">
 
     <data>
-        <import type="pl.jan.bober.progressivereport.R" />
+        <import type="android.view.View" />
+        <import type="pl.jan.bober.progressivereport.R"/>
 
         <variable
             name="viewModel"
             type="pl.jan.bober.progressivereport.screens.main.ReportViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ViewFlipper
+        android:id="@+id/view_navigation_reports"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context=".screens.main.MainActivity">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:paddingTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <include
+            android:id="@+id/get_reports"
+            layout="@layout/flipper_get_reports"
+            app:viewModel="@{viewModel}"/>
 
-            <androidx.appcompat.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
+        <include
+            android:id="@+id/add_reports"
+            layout="@layout/flipper_add_report"
+            app:viewModel="@{viewModel}"/>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/delete_all_reports"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/menu_report_icon"
-                        android:background="@drawable/ic_delete"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription,RtlSymmetry,UnusedAttribute" />
-                    <!--android:onClick="@{() -> viewModel.onBackPressed()}"-->
-
-                    <ImageView
-                        android:id="@+id/action_search"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/menu_report_icon"
-                        android:background="@drawable/ic_search"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/delete_all_reports"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription,RtlSymmetry,UnusedAttribute" />
-                    <!--android:onClick="@{() -> viewModel.onBackPressed()}"-->
-
-                    <ImageView
-                        android:id="@+id/add_report"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/menu_report_icon"
-                        android:background="@drawable/ic_add"
-                        android:onClick="@{() -> viewModel.addReport()}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/action_search"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription,RtlSymmetry,UnusedAttribute" />
-                    <!--android:onClick="@{() -> viewModel.onBackPressed()}"-->
-
-                    <TextView
-                        android:id="@+id/registration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="18dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="@string/app_name"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <RelativeLayout
-            android:id="@+id/relative"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="62dp">
-
-            <TableLayout
-                android:id="@+id/table_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#f1f1f1"
-                android:layout_marginTop="10dp">
-
-                <TableRow tools:ignore="UselessParent">
-                    <TextView
-                        android:id="@+id/filter_name"
-                        android:layout_width="0dip"
-                        android:layout_height="wrap_content"
-                        android:text="@string/designation"
-                        style="@style/columnText"/>
-                    <TextView
-                        android:id="@+id/filter_date"
-                        android:layout_width="0dip"
-                        android:layout_height="wrap_content"
-                        android:text="@string/date"
-                        style="@style/columnText"/>
-                    <TextView
-                        android:id="@+id/filter_time"
-                        android:layout_width="0dip"
-                        android:layout_height="wrap_content"
-                        android:text="@string/time"
-                        style="@style/columnText"/>
-                </TableRow>
-            </TableLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                bind:viewModel="@{viewModel}"
-                tools:listitem="@layout/report_item"
-                android:layout_below="@+id/table_layout">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-        </RelativeLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ViewFlipper>
 </layout>

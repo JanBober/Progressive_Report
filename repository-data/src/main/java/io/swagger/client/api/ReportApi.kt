@@ -10,8 +10,13 @@ interface ReportApi {
     @GET("/reports")
     fun apiReportGet(): Single<List<Report>>
 
-    @POST("/reports/")
+    @POST("/reports")
     fun apiReportPost(
+        @Body report: Report
+    ): Single<Report>
+
+    @PUT("/reports")
+    fun apiReportPut(
         @Body report: Report
     ): Single<Report>
 

@@ -15,6 +15,10 @@ class ReportRepositoryImpl(private val reportApi: ReportApi) : ReportRepository 
         return reportApi.apiReportPost(report)
     }
 
+    override fun putReport(report: Report): Single<Report> {
+        return reportApi.apiReportPut(report)
+    }
+
     override fun deleteReport(reportId: Long): Completable {
         return reportApi.apiReportDelete(reportId)
     }

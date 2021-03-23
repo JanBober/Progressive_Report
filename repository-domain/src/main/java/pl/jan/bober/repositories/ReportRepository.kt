@@ -9,5 +9,7 @@ interface ReportRepository {
 
     fun postReport(report: Report): Single<Report>
 
+    fun putReport(report: Report): Single<Report>
+
     fun deleteReport(reportId: Long): Completable
 }

@@ -70,7 +70,6 @@ class NetworkModule {
     internal fun provideRetrofitInterface(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://report-restapi.herokuapp.com/")
-//            .baseUrl("http://localhost:8080")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

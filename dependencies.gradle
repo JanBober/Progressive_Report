@@ -84,6 +84,10 @@ ext {
             'androidx.constraintlayout:constraintlayout:2.0.4'
     ]
 
+    pubnub = [
+            'com.pubnub:pubnub-gson:4.25.0'
+    ]
+
     dataReportDependencies = [
             base,
             retrofit,
@@ -113,6 +117,7 @@ ext {
             room,
             ktx,
             view,
-            swagger
+            swagger,
+            pubnub
     ]
 }

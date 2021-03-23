@@ -12,6 +12,8 @@ import pl.jan.bober.progressivereport.utils.annotations.ViewModelKey
 import pl.jan.bober.repositories.ReportRepository
 import pl.jan.bober.usecases.DeleteReportUseCase
 import pl.jan.bober.usecases.GetReportUseCase
+import pl.jan.bober.usecases.PostReportUseCase
+import pl.jan.bober.usecases.PutReportUseCase
 import javax.inject.Singleton
 
 @Module(includes = [ReportUseCases::class])
@@ -32,6 +34,18 @@ class ReportUseCases {
     @Singleton
     fun provideGetReportUseCase(reportRepository: ReportRepository): GetReportUseCase {
         return GetReportUseCase(reportRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providePostReportUseCase(reportRepository: ReportRepository): PostReportUseCase {
+        return PostReportUseCase(reportRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun providePutReportUseCase(reportRepository: ReportRepository): PutReportUseCase {
+        return PutReportUseCase(reportRepository)
     }
 
     @Provides
