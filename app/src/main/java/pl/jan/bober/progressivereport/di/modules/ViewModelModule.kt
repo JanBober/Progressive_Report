@@ -7,7 +7,9 @@ import pl.jan.bober.progressivereport.ReportApp
 
 @Module(
     includes = [
-        MainActivityModule::class
+        ReportModule::class,
+        DatePickerFragmentModule::class,
+        TimePickerFragmentModule::class
     ]
 )
 abstract class ViewModelModule {

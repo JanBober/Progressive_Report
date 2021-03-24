@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="pl.jan.bober.progressivereport">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
         android:name=".ReportApp"
         android:allowBackup="true"
@@ -12,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".screens.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

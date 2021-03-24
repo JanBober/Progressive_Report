@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="pl.jan.bober.progressivereport.R"/>
+        <variable
+            name="viewModel"
+            type="pl.jan.bober.progressivereport.screens.main.ReportViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbarAddReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:paddingTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/save_private_report"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/menu_report_icon"
+                        android:background="@drawable/ic_save"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/save_private_report" />
+
+                    <ImageView
+                        android:id="@+id/save_cloud_report"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/menu_report_icon"
+                        android:onClick="@{() -> viewModel.saveReport()}"
+                        android:background="@drawable/ic_cloud_upload"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/save_private_report"
+                        android:contentDescription="@string/save_cloud_report" />
+
+                    <ImageView
+                        android:id="@+id/close_add_report_activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/menu_report_icon"
+                        android:onClick="@{() -> viewModel.doNotSave()}"
+                        android:background="@drawable/ic_close"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:contentDescription="@string/close_and_report_activity" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/report_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintTop_toBottomOf="@id/appbarAddReport"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <EditText
+                android:id="@+id/report_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name"
+                android:text="@={viewModel.name}"
+                android:inputType="text"
+                android:layout_margin="20dp"
+                tools:ignore="Autofill"
+                android:imeOptions="actionDone"/>
+
+            <TextView
+                android:id="@+id/report_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bind:text="@{viewModel.date}"
+                style="@style/report_form_text_view"/>
+
+            <TextView
+                android:id="@+id/report_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bind:text="@{viewModel.time}"
+                style="@style/report_form_text_view"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
