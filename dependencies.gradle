@@ -105,7 +105,6 @@ ext {
             swagger,
             room
     ]
-    
 
     AppDependencies = [
             base,

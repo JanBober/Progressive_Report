@@ -54,8 +54,6 @@ class MainActivity : BaseActivity(),DatePickerDialog.OnDateSetListener,TimePicke
         activeOutput()
         binding()
         initPubNub()
-
-//        reportAdapter.setReportList(reportViewModel.allReports.value!!)
     }
     private fun sendMessage() {
         pubnub.publish()
@@ -121,23 +119,28 @@ class MainActivity : BaseActivity(),DatePickerDialog.OnDateSetListener,TimePicke
                 ReportViewModel.Action.GoToFormReportFlipper ->
                     startAddReportFlipper()
                 is ReportViewModel.Action.ShowPrivateReports -> {
-                    // TODO: 19.02.2021 insert list listOfReports and listOfPrivateReports
+                    showSnackBar("")
+                    // TODO: 29.03.2021 add to implement
                 }
                 ReportViewModel.Action.AddPrivateReport -> {
-                    showSnackBar("")
-                    // TODO: 19.02.2021 add message
+                    showSnackBar("not implemented yet")
+                    // TODO: 29.03.2021 add to implement
                 }
                 ReportViewModel.Action.UpdatePrivateReport -> {
                     showSnackBar("")
-                    // TODO: 19.02.2021 add message
+                    // TODO: 29.03.2021 add to implement
                 }
                 ReportViewModel.Action.DeletePrivateReport -> {
                     showSnackBar("")
-                    // TODO: 19.02.2021 add message
+                    // TODO: 29.03.2021 add to implement
                 }
                 ReportViewModel.Action.DeletePrivateReports -> {
                     showSnackBar("")
-                    // TODO: 19.02.2021 add message
+                    // TODO: 29.03.2021 add to implement
+                }
+                ReportViewModel.Action.Foo -> {
+                    showSnackBar("not implemented yet")
+                    // TODO: 29.03.2021
                 }
             }
         }
@@ -154,12 +157,10 @@ class MainActivity : BaseActivity(),DatePickerDialog.OnDateSetListener,TimePicke
                 is ReportViewModel.Errors.AddReportException ->
                     it.exception.message?.let { message ->
                         showSnackBar(message)
-                        finish()
                     }
                 is ReportViewModel.Errors.UpDateReportException ->
                     it.exception.message?.let { message ->
                         showSnackBar(message)
-                        finish()
                     }
                 ReportViewModel.Errors.NameIsEmpty ->
                     showToast("Please insert a name", true)

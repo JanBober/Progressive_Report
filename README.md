@@ -1,4 +1,2 @@
 # Progressive_Report
-Progressive Report
-added feature getReports and deleteReports
-added feature add Report
+Author Jan Bober - Android Developer
