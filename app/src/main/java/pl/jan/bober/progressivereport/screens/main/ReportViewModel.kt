@@ -39,6 +39,7 @@ class ReportViewModel @Inject constructor(
     val actionReport = SingleLiveEvent<Action>()
     val errorReport = SingleLiveEvent<Errors>()
 
+    // TODO: 29.03.2021 add to implement
     fun getPrivateReport() {
         mainDatabase.reportDao().getReports()
             .subscribeOn(Schedulers.io())
@@ -54,6 +55,7 @@ class ReportViewModel @Inject constructor(
             ).addTo(disposables)
     }
 
+    // TODO: 29.03.2021 add to implement
     fun insertPrivateReport(report: Report) {
         mainDatabase.reportDao().insert(report)
             .subscribeOn(Schedulers.io())
@@ -68,6 +70,7 @@ class ReportViewModel @Inject constructor(
             ).addTo(disposables)
     }
 
+    // TODO: 29.03.2021 add to implement
     fun updatePrivateReport(report: Report) {
         mainDatabase.reportDao().insert(report)
             .subscribeOn(Schedulers.io())
@@ -82,6 +85,7 @@ class ReportViewModel @Inject constructor(
             ).addTo(disposables)
     }
 
+    // TODO: 29.03.2021 add to implement
     fun deletePrivateReport(report: Report) {
         mainDatabase.reportDao().delete(report)
             .subscribeOn(Schedulers.io())
@@ -96,6 +100,7 @@ class ReportViewModel @Inject constructor(
             ).addTo(disposables)
     }
 
+    // TODO: 29.03.2021 add to implement
     fun deletePrivateAllReports() {
         mainDatabase.reportDao().deleteAllReport()
             .subscribeOn(Schedulers.io())
@@ -144,6 +149,10 @@ class ReportViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun saveRoomReport() {
+        actionReport.value = Action.AddPrivateReport
     }
 
     fun saveReport() {
@@ -249,6 +258,7 @@ class ReportViewModel @Inject constructor(
         object UpdatePrivateReport : Action()
         object DeletePrivateReport : Action()
         object DeletePrivateReports : Action()
+        object Foo : Action()
     }
 
     sealed class Errors {
@@ -257,5 +267,10 @@ class ReportViewModel @Inject constructor(
         data class UpDateReportException(val exception: Throwable) : Errors()
         object NameIsEmpty : Errors()
         data class PrivateReportException(val exception: Throwable) : Errors()
+    }
+
+    // TODO: 29.03.2021 "not implemented yet"
+    fun foo() {
+        actionReport.value = Action.Foo
     }
 }
